@@ -1,0 +1,141 @@
+% Document styling for all notes
+% Based off the great work by Gilles Castel
+
+% Jacqueline W., 17/09/25
+
+% based off article class
+\documentclass[12pt,a4paper]{article}
+\author{Jacqueline Walker}
+
+% margin editing
+\usepackage[top=1in,bottom=1in,left=1.5in,right=1.5in,marginparwidth=1.1in]{geometry}
+
+% hack for no page breaking
+\newenvironment{absolutelynopagebreak}
+  {\par\nobreak\vfil\penalty0\vfilneg
+   \vtop\bgroup}
+  {\par\xdef\tpd{\the\prevdepth}\egroup
+   \prevdepth=\tpd}
+
+% custom commands for extra info
+\makeatletter
+\newcommand*{\modulename}[1]{\gdef\@modulename{#1}}
+\newcommand*{\modulecode}[1]{\gdef\@modulecode{#1}}
+\newcommand*{\moduleyear}[1]{\gdef\@moduleyear{#1}}
+\newcommand*{\modulelecturers}[1]{\gdef\@modulelecturers{#1}}
+\makeatother
+
+% custom command for standardized rule
+\newcommand*{\jwrule}{\rule{\textwidth}{0.5pt}\raggedright}
+
+% custom title
+\makeatletter
+\renewcommand*{\maketitle}{%
+\centering
+{\huge\textsc{\@modulecode}\par}
+{\Huge\textsc{\@modulename}\par}
+{\huge\textsc{\@moduleyear}\par}
+\vspace{1cm}
+{\large \textit{Taught by \@modulelecturers}\par}
+{\large \textit{Notes by \@author}\par}
+\jwrule}
+\makeatother
+
+% fourier math
+
+\usepackage{fourier}
+\usepackage[T1]{fontenc}
+
+% better math support
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+% custom section titling
+\usepackage{titlesec}
+
+\titleformat{\part}
+{\raggedright\normalfont\Huge\scshape}{}{0em}{}[\vspace{-2ex}\jwrule]
+
+\titleformat{\section}
+{\raggedright\normalfont\Large\scshape}{Lecture \thesection:}{1em}{}[\vspace{-2ex}\jwrule]
+
+% custom subsec titling
+\titleformat{\subsection}
+{\raggedright\normalfont\large\scshape}{\thesubsection:}{1em}{}
+
+\titleformat{\subsubsection}
+{\raggedright\normalfont\scshape}{\thesubsubsection:}{1em}{}
+
+
+% custom toc
+\usepackage{tocloft}
+\renewcommand\cftsecfont{\normalfont}
+\renewcommand\cftsecpagefont{\normalfont}
+\renewcommand\cftpartfont{\normalfont}
+\renewcommand\cftpartpagefont{\normalfont}
+\renewcommand{\cftsecleader}{\cftdotfill{\cftsecdotsep}}
+\renewcommand\cftsecdotsep{\cftdot}
+\renewcommand\cftsubsecdotsep{\cftdot}
+\renewcommand\cftsubsubsecdotsep{\cftdot}
+\renewcommand\cftpartdotsep{\cftdot}
+\renewcommand{\cfttoctitlefont}{\Large\scshape}
+
+% lengths for paragraph stuff
+\setlength{\parindent}{15cm} % TODO: fix
+\setlength{\parskip}{2ex}
+
+% custom command for inserting pdf figures
+\usepackage{graphicx}
+\usepackage[labelfont=sc]{caption}
+
+\newcommand*{\jwfig}[3]{%
+    \begin{figure}[!h]
+        \centering
+        \includegraphics[width=#2\textwidth]{#1}
+        \caption{#3}
+        \label{fig:#1}
+    \end{figure}
+}
+
+% custom header & footer
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+
+\makeatletter
+\newcommand*{\jwprelim}{%
+\fancyhead[L]{\@modulecode\ \@modulename}
+\fancyhead[R]{Prelim.}
+\fancyfoot[C]{\thepage}
+}
+
+\newcommand*{\jwmain}{%
+\fancyhead[L]{\scshape\@modulecode\ \@modulename}
+\fancyhead[R]{\itshape Lec. \thesection}
+\fancyfoot[C]{\thepage}
+}
+\makeatother
+
+% framed paragraph for stuff
+\usepackage{mdframed}
+\newmdenv[linewidth=0.5pt,innerleftmargin=1ex,innerrightmargin=1ex]{jwframeint}
+
+\newenvironment{jwframe}{%
+    \begin{absolutelynopagebreak}
+        \begin{jwframeint}}
+        {%
+        \end{jwframeint}
+    \end{absolutelynopagebreak}
+}
+
+% custom command for margin cites
+\reversemarginpar
+
+\newcommand*{\jwcite}[1]{%
+\marginpar[See #1.]}
+
+% hyperlink support
+\usepackage{hyperref}
+
+\usepackage{fancyvrb}
+
+\usepackage{tikz}
